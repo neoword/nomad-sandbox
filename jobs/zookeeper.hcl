@@ -14,6 +14,7 @@ job "zookeeper" {
         attribute = "${attr.kernel.name}"
         value = "linux"
     }
+    # ensure we are only on the nodes that have ZK enabled... ensure these are only 3 nodes
     constraint {
         attribute = "${meta.zookeeper}"
         value = "true"
@@ -24,9 +25,7 @@ job "zookeeper" {
         # define the number of times the tasks need to be executed
         count = 3
 
-        # because we have 3 client nodes, we are guaranteed to be on node1, node2, node3
-        # NOTE: if the number of nodes are changed this WILL BREAK... will need to add a node meta constraing
-        #       to ensure that there are only 3 "ZK-READY" nodes
+        # ensure we are on 3 different nodes
         constraint {
             operator  = "distinct_hosts"
             value     = "true"
@@ -37,7 +36,7 @@ job "zookeeper" {
             attempts = 10
             interval = "5m"
             delay = "25s"
-            mode = "delay"
+            mode = "fail"
         }
 
         task "zk-data-dir" {
@@ -64,13 +63,11 @@ job "zookeeper" {
                 ZOOKEEPER_SERVER_ID   = {{$i | parseInt | add 1}}
                 ZOOKEEPER_SERVERS     = {{if eq $i "0"}}0.0.0.0:2888:3888;node3:2888:3888;node4:2888:3888{{else}}{{if eq $i "1"}}node2:2888:3888;0.0.0.0:2888:3888;node4:2888:3888{{else}}node2:2888:3888;node4:2888:3888;0.0.0.0:2888:3888{{end}}{{end}}
                 ZOOKEEPER_HOST        = {{if eq $i "0"}}node2{{else}}{{if eq $i "1"}}node3{{else}}node4{{end}}{{end}}
-                ZOOKEEPER_IP        = {{if eq $i "0"}}192.168.33.11{{else}}{{if eq $i "1"}}192.168.33.12{{else}}192.168.33.13{{end}}{{end}}
+                ZOOKEEPER_IP          = {{if eq $i "0"}}192.168.33.11{{else}}{{if eq $i "1"}}192.168.33.12{{else}}192.168.33.13{{end}}{{end}}
+                ZOOKEEPER_CLIENT_PORT = 2181
               EOT
               destination = "zk-env/zookeeper.env"
               env         = true
-            }
-            env {
-              ZOOKEEPER_CLIENT_PORT = 2181 # "${NOMAD_HOST_PORT_zk}"
             }
             config {
 #                network_mode = "host"
@@ -121,6 +118,11 @@ job "zookeeper" {
                     port = "zk"
                     interval = "10s"
                     timeout = "2s"
+                    check_restart {
+                        limit = 3
+                        grace = "90s"
+                        ignore_warnings = false
+                    }
                 }
             }
         }
