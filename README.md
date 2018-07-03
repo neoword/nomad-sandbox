@@ -1,13 +1,11 @@
 # Overview
 
 This repo has install scripts for:
-* Setting up a cluster of 4 vagrant boxes on your machines
+* Setting up a cluster of 4 vagrant boxes locally on your machine as host.
 * The first one is the nomad Server, the other 3 are nomad client nodes
-* Once the nomad cluster is provisioned with `vagrant up`, then a zookeeper nomad job can be deployed
+* Once the nomad cluster is provisioned with `vagrant up`, then a zookeeper nomad (HCL) job can be deployed
 * Since zk requires "static knowledge" of its quorum peers, a static allocation is made to the nomad cluster via
-  a private network and known IPs.
-
-This will also simplify other cluster installations like kafka.
+  a private network and known IPs. This will also simplify other cluster installations like kafka.
 
 Feel free to use any of this for your learning adventures.
 
