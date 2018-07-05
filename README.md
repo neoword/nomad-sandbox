@@ -3,9 +3,12 @@
 This repo has install scripts for:
 * Setting up a cluster of 4 vagrant boxes locally on your machine as host.
 * The first one is the nomad Server, the other 3 are nomad client nodes
-* Once the nomad cluster is provisioned with `vagrant up`, then a zookeeper nomad (HCL) job can be deployed
-* Since zk requires "static knowledge" of its quorum peers, a static allocation is made to the nomad cluster via
+* Once the nomad cluster is provisioned with `vagrant up`, then a nomad (HCL) job can be deployed
+* Since jobs like zookeeper require "static knowledge" of its quorum peers, a static allocation is made to the nomad cluster via
   a private network and known IPs. This will also simplify other cluster installations like kafka.
+  (See [confluent-sandbox][e07346f4] for more details.)
+
+[e07346f4]: https://github.com/neoword/confluent-sandbox "confluent-sandbox"
 
 Feel free to use any of this for your learning adventures.
 
@@ -18,17 +21,7 @@ Start up your local cluster by running Vagrant.
 > vagrant up
 ```
 
-Once it is started... verify by looking at the running version of nomad_node
+Once it is started... verify nomad is running by browsing to the nomad ui
 ```
 > open http://localhost:4646/
-```
-
-Now startup zookeeper job
-```
-> vagrant ssh node2 -c /vagrant/scripts/start_zk.sh
-```
-
-To stop the zookeeper job
-```
-> vagrant ssh node2 -c /vagrant/scripts/stop_zk.sh
 ```
