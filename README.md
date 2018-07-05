@@ -28,7 +28,7 @@ Now startup zookeeper job
 > vagrant ssh node2 -c /vagrant/scripts/start_zk.sh
 ```
 
-Top stop the zookeeper job
+To stop the zookeeper job
 ```
 > vagrant ssh node2 -c /vagrant/scripts/stop_zk.sh
 ```
