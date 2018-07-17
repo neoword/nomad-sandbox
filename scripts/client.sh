@@ -40,7 +40,7 @@ fi
 # stream registryips
 sr_ips=("192.168.33.11")
 if [[ " ${sr_ips[@]} " =~ " $1 " ]]; then
-	SR_META='"stream-registry" = "true"'
+	SR_META='"schema-registry" = "true"'
 fi
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
