@@ -23,48 +23,51 @@ sudo mkdir -p /tmp/consul.d
 sudo systemctl enable consul.service
 sudo systemctl start consul
 
+# set meta config for each node
 
+# zookeeper meta config
 zk_ips=("192.168.33.11" "192.168.33.12" "192.168.33.13")
 if [[ " ${zk_ips[@]} " =~ " $1 " ]]; then
-	echo "Writing nomad client config..."
-	(
-	cat <<-EOF
-	# /etc/nomad.d/client.hcl
-
-	datacenter = "dc1"
-	data_dir   = "/etc/nomad.d"
-	log_level  = "DEBUG"
-  bind_addr = "$1"
-
-	client {
-	  enabled = true
-    network_interface = "eth1"
-		meta {
-			"zookeeper" = "true"
-		}
-	}
-	EOF
-	) | sudo tee /etc/nomad.d/client.hcl
+	ZK_META='"zookeeper" = "true"'
 fi
 
-if [[ ! " ${zk_ips[@]} " =~ " $1 " ]]; then
-	echo "Writing nomad client config..."
-	(
-	cat <<-EOF
-	# /etc/nomad.d/client.hcl
-
-	datacenter = "dc1"
-	data_dir   = "/etc/nomad.d"
-	log_level  = "DEBUG"
-  bind_addr = "$1"
-
-	client {
-	  enabled = true
-    network_interface = "eth1"
-	}
-	EOF
-	) | sudo tee /etc/nomad.d/client.hcl
+# kafka meta config
+kafka_ips=("192.168.33.11" "192.168.33.12" "192.168.33.13")
+if [[ " ${kafka_ips[@]} " =~ " $1 " ]]; then
+	KAFKA_META='"kafka" = "true"'
 fi
+
+# stream registryips
+sr_ips=("192.168.33.11")
+if [[ " ${sr_ips[@]} " =~ " $1 " ]]; then
+	SR_META='"stream-registry" = "true"'
+fi
+
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
+META=`join_by , "${ZK_META}" "${KAFKA_META}" "${SR_META}"`
+
+if [ ! -z "${META}" ]; then
+	META_SECTION="meta { $META }"
+fi
+
+echo "Writing nomad client config..."
+(
+cat <<-EOF
+# /etc/nomad.d/client.hcl
+
+datacenter = "dc1"
+data_dir   = "/etc/nomad.d"
+log_level  = "DEBUG"
+bind_addr = "$1"
+
+client {
+  enabled = true
+  network_interface = "eth1"
+	${META_SECTION}
+}
+EOF
+) | sudo tee /etc/nomad.d/client.hcl
 
 (
 cat <<-EOF
