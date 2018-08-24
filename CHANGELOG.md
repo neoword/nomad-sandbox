@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog]
 and this project adheres to [Semantic Versioning].
 
 ## [v0.3] Unreleased
+### Added
+* Added metadata for docker-registry (#13)
+* Added config for docker-registry (#13)
+
 ### Changed
-* CHANGELOG.md is [Keep a Changelog] compliant
+* CHANGELOG.md is [Keep a Changelog] compliant (#12)
 
 ## [v0.2] - 20180717
 ### Added
