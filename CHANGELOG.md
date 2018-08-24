@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog]
 and this project adheres to [Semantic Versioning].
 
-## [v0.3] Unreleased
+## [v0.4] - Unreleased
+
+## [v0.3] - 20180824
 ### Added
 * Added metadata for docker-registry (#13)
 * Added config for docker-registry (#13)
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning].
 * Initial version
 * Moved zookeeper.hcl to confluent-sandbox (#4)
 
+[v0.3]: https://github.com/neoword/nomad-sandbox/compare/v0.2...v0.3
 [v0.2]: https://github.com/neoword/nomad-sandbox/compare/v0.1...v0.2
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: http://semver.org/spec/v2.0.0.html
