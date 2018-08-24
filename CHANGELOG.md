@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog]
 and this project adheres to [Semantic Versioning].
 
 ## [v0.4] - Unreleased
+### Changed
+* Fixed trailing comma issue (#15)
 
 ## [v0.3] - 20180824
 ### Added
