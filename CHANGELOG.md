@@ -1,10 +1,12 @@
 # CHANGELOG.md
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog]
+and this project adheres to [Semantic Versioning].
 
 ## [v0.3] Unreleased
+### Changed
+* CHANGELOG.md is [Keep a Changelog] compliant
 
 ## [v0.2] - 20180717
 ### Added
@@ -23,3 +25,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Moved zookeeper.hcl to confluent-sandbox (#4)
 
 [v0.2]: https://github.com/neoword/nomad-sandbox/compare/v0.1...v0.2
+[Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
+[Semantic Versioning]: http://semver.org/spec/v2.0.0.html
