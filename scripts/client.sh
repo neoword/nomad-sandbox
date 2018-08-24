@@ -49,7 +49,7 @@ if [[ " ${dr_ips[@]} " =~ " $1 " ]]; then
 	DR_META='"docker-registry" = "true"'
 fi
 
-function join_by { local IFS="$1"; shift; echo "$*"; }
+function join_by { local IFS="$1"; shift; echo "$*" | sed 's/,*$//g'; }
 
 META=`join_by , "${ZK_META}" "${KAFKA_META}" "${SR_META}" "${DR_META}"`
 
