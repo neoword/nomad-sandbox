@@ -37,15 +37,21 @@ if [[ " ${kafka_ips[@]} " =~ " $1 " ]]; then
 	KAFKA_META='"kafka" = "true"'
 fi
 
-# stream registryips
+# stream registry config
 sr_ips=("192.168.33.11")
 if [[ " ${sr_ips[@]} " =~ " $1 " ]]; then
 	SR_META='"schema-registry" = "true"'
 fi
 
+# docker registry config
+dr_ips=("192.168.33.11")
+if [[ " ${dr_ips[@]} " =~ " $1 " ]]; then
+	DR_META='"docker-registry" = "true"'
+fi
+
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
-META=`join_by , "${ZK_META}" "${KAFKA_META}" "${SR_META}"`
+META=`join_by , "${ZK_META}" "${KAFKA_META}" "${SR_META}" "${DR_META}"`
 
 if [ ! -z "${META}" ]; then
 	META_SECTION="meta { $META }"

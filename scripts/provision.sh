@@ -44,6 +44,15 @@ else
 fi
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce
 
+echo "Setting up config for docker-registry..."
+(
+cat <<-EOF
+{
+  "insecure-registries" : ["node2:5000"]
+}
+EOF
+) | sudo tee /etc/docker/daemon.json
+
 # Restart docker to make sure we get the latest version of the daemon if there is an upgrade
 sudo service docker restart
 
