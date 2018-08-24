@@ -49,15 +49,6 @@ if [[ " ${dr_ips[@]} " =~ " $1 " ]]; then
 	DR_META='"docker-registry" = "true"'
 fi
 
-echo "Setting up config for docker-registry..."
-(
-cat <<-EOF
-{
-  "insecure-registries" : ["node2:5000"]
-}
-EOF
-) | sudo tee /etc/docker/daemon.json
-
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 META=`join_by , "${ZK_META}" "${KAFKA_META}" "${SR_META}" "${DR_META}"`
